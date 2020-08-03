@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>666</title>
+</head>
+
+<body>
+
+    <script>
+        // 类数组
+
+        // 1，属性要是索引，就是数字
+        // 2，一定要有 length 属性
+        // 3，最好在加 上push 方法
+
+        var obj = {
+            '0': 'a',
+            '1': 'b',
+            '2': 'c',
+            'length': 3,
+            'push': Array.prototype.push
+        }
+        
+
+
+
+        // DOM方法，生成的所有对象，都是类数组
+
+
+
+
+        // 每一个函数内部，都会有一个JS引擎创建好的实参列表：arguments，它是一个类数组，
+        function test(a, b) {
+            console.log(arguments)   // 实参列表
+            console.log(test.length) // 代表形参的长度
+        }
+        test(1, 2, 3)
+
+
+        // arguments 和 形参，一个变。另一个也跟着变。但他们不是同一个东西，他们只是存在映射关系
+        // 你变我就变，我变你也变
+
+
+        // 特列：
+        function test2(a, b) {
+            console.log(arguments)
+            b = 2
+            console.log(arguments)
+        }
+        test2(1)
+        // 原因：实参列表有几个，arguments在创建的时候就有几个
+        // 只有当 arguments 和 形参 数量相等的时候，才会存在映射关系
+        // 如果不相等，前面的映射，后面的不映射
+
+
+
+
+        function test3(a, b) {
+            console.log(arguments)
+            a = 3
+            console.log(arguments)
+            arguments[1] = 4
+            console.log(arguments)
+        }
+        test3(1, 2)
+
+
+
+
+
+
+
+
+        var obj = {
+            '2': 3,
+            '3': 4,
+            'length': 2,
+            'splice': Array.prototype.splice, // 有无此行的答案分别是多少?
+            'push': Array.prototype.push
+        }
+        obj.push(1)
+        obj.push(2)
+        console.log(obj)
+
+
+
+
+
+        // 如果在加上 splice 方法，外形上就和数组一模一样了
+    </script>
+
+</body>
+
+</html>

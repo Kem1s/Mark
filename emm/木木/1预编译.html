@@ -1,0 +1,288 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>666</title>
+</head>
+
+<body>
+
+    <script>
+        // 任何变量未经声明就赋值，都会作为 window 上的属性
+        // 一切 var 声明的全局变量，都是 window 上的属性
+
+        // GO === window
+
+        // 栈 和 堆， 原始类型 和 引用类型
+
+
+        var a = [1, 2]
+        var b = [2, 3]
+        b = a = [3, 4]
+        a.push(5)
+        b.push(6)
+        b = [3, 4, 6]
+        console.log(a)
+        console.log(b)
+
+        //参考文档 ： https://www.cnblogs.com/huangshikun/p/6510482.html
+        // 知识点：1、基本类型 和 引用类型    
+        //           基本类型Undefined、Null、Boolean、Number 和 String，按值存放。(值存放在栈上，可直接使用)
+        //           引用类型(对象，数组，函数，11个内置对象),按址存放。(值存放在堆上，在堆上有唯一地址映射在栈上)
+
+
+        
+
+
+        var bar = { a: 1 }
+        var test = 1
+        function foo(bar, test) {
+            test = 2
+            bar.a = 2
+            console.log(bar)
+            console.log(test)
+        }
+        foo(bar, test)
+        console.log(bar)
+        console.log(test)
+
+
+
+
+
+
+            (function () { var a = b = 5 })()
+        console.log(b)
+
+
+
+
+        
+
+
+        function test() {
+            var num = 123
+            console.log(num)
+        }
+        test()
+        console.log(num)
+
+
+
+
+
+
+
+
+
+        // 预编译
+
+
+
+         // test()
+         function test() {
+            console.log('1')
+        }
+        test()
+
+
+
+
+
+        console.log(a)
+        function a(a) {
+            var a = '1'
+            var a = function a() {
+                console.log(a)
+            }
+            a()
+        }
+        a()
+        var a = '2'
+        console.log(a)
+
+
+
+
+        function a(a) {
+            console.log(a)
+            var a = '2'
+            console.log(a)
+            function a() { }
+            console.log(a)
+            console.log(b)
+            var b = function () { }
+            console.log(b)
+        }
+        a('1')
+
+
+
+
+
+        // JS引擎执行规则：
+        // 1，通篇扫描
+        // 2，预编译
+        // 3，解释一行，执行一行
+
+
+
+        // 预编译：
+        // 1，创建AO对象，执行期上下文
+        // 2，找形参和变量声明，并将其作为AO的属性名，同时赋值 undefined
+        // 3，将实参的值赋值给形参
+        // 4，找函数声明，并赋值为函数体
+
+
+
+
+        console.log(a)
+        var a = 1;
+        console.log(a)
+        function a() { }
+        console.log(a)
+
+
+
+
+        console.log(foo);
+        var foo = 10;
+        console.log(foo);
+        function foo() {
+            console.log(10);
+        }
+        console.log(foo);
+
+
+
+
+
+
+        var foo;
+        console.log(foo);
+        foo();
+        foo = function () {
+            console.log("aaa");
+        }
+
+
+
+
+
+        var foo = { n: 1 };
+        (function (foo) {
+            console.log(foo.n);
+            foo.n = 3;
+            var foo = { n: 2 };
+            console.log(foo.n);
+        })(foo);
+        console.log(foo.n);
+
+
+
+
+
+
+        var a = 1;
+        test();
+        function test() {
+            console.log(a)
+            var a = 2;
+            console.log(a)
+        }
+        console.log(a)
+
+
+
+
+
+
+
+        function test() {
+            console.log(a);
+            console.log(foo());
+
+            var a = 1;
+            function foo() {
+                return 2;
+            }
+        }
+        test();
+
+
+
+
+
+
+
+        var a, b;
+        (function () {
+            console.log(a);
+            console.log(b);
+            var a = b = 3;
+            console.log(a);
+            console.log(b);
+        })();
+        console.log(a);
+        console.log(b);
+
+
+
+
+
+
+
+        function fn(a) {
+            function a() { }
+            var a
+            console.log(a)
+            var a = 2
+            function a() { }
+            console.log(a)
+        }
+        fn(1)
+
+
+
+
+
+        var x = 1, y = z = 0
+        function add(x){
+            return x += 1
+        }
+        y = add(x)
+        function add(x){
+            return x += 3
+        }
+        z = add(x)
+        console.log(x)
+        console.log(y)
+        console.log(z)
+
+
+
+
+
+
+        var a = 1;
+        function test() {
+            a = 2;
+            console.log(a);
+            console.log(this.a);
+            var a;
+            console.log(a);
+            var a = 3
+            console.log(a)
+            function a() { }
+            console.log(a)
+        }
+        test();
+
+    </script>
+
+</body>
+
+</html>

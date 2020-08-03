@@ -1,0 +1,1 @@
+<view class="content data-v-4f00a2cc"><view class="map_container data-v-4f00a2cc"><map class="map data-v-4f00a2cc" id="map" longitude="{{longitude}}" latitude="{{latitude}}" scale="14" markers="{{markers}}" data-event-opts="{{[['markertap',[['makertap',['$event']]]]]}}" bindmarkertap="__e"></map></view></view>

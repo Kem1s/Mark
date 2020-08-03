@@ -1,0 +1,86 @@
+{
+	"pages": [
+		//pages数组中第一项表示应用启动页，参考：https://uniapp.dcloud.io/collocation/pages
+		
+		{
+			// 默认启动页路径
+			"path": "pages/tabbar/tabbar-2/tabbar-2",
+			"style": {
+				"navigationBarTitleText": "爱回收"
+			}
+		},
+		{
+			"path": "pages/tabbar/tabbar-1/tabbar-1",
+		    "style" : {
+				"enablePullDownRefresh":true
+			}
+		},
+		{
+			"path": "pages/tabbar/tabbar-3/tabbar-3"
+		},
+		{
+			"path": "pages/tabbar/tabbar-4/tabbar-4"
+		},
+		{
+		    "path" : "pages/components/city/city"
+		}
+		
+        ,{
+            "path" : "pages/components/map/map",
+            "style" : {}
+        }
+    ],
+	"globalStyle": {
+		// 导航栏标题颜色及状态栏前景颜色，仅支持 black/white
+		"navigationBarTextStyle": "white",
+		// 导航栏标题文字内容
+		"navigationBarTitleText": "爱回收",
+		// 导航栏背景颜色（同状态栏背景色）
+		"navigationBarBackgroundColor": "#17c174",
+		// 下拉刷新显示出来的窗口的背景色
+		"backgroundColor": "#ffffff",
+		// 下拉刷新小点点 仅支持 dark / light
+		"backgroundTextStyle": "dark",
+		// 是否开启下拉刷新
+		"enablePullDownRefresh": false
+	},
+	"tabBar": {
+		// borderStyle 底部tab栏边框颜色  仅支持 black / white
+		"borderStyle": "white",
+		// tab 的背景色，仅支持十六进制颜色
+		"backgroundColor": "#FFFFFF",
+		// tab 上的文字默认颜色，仅支持十六进制颜色
+		"color": "#666",
+		// tab 上的文字选中颜色，仅支持十六进制颜色
+		"selectedColor": "#17c174",
+		"list": [{
+				"pagePath": "pages/tabbar/tabbar-1/tabbar-1",
+				"iconPath": "static/img/tabbar/store.png",
+				"selectedIconPath": "static/img/tabbar/store_s.png",
+				"text": "积分商城"
+			},
+			// pagePath 路由 必须在 pages 中先定义 
+			// iconPath 图片路径 
+			// selectedIconPath 图片选中路径 
+			// text tabbar显示文案 
+			{
+				"pagePath": "pages/tabbar/tabbar-2/tabbar-2",
+				"iconPath": "static/img/tabbar/recover.png",
+				"selectedIconPath": "static/img/tabbar/recover_s.png",
+				"text": "回收"
+			},
+			{
+				"pagePath": "pages/tabbar/tabbar-3/tabbar-3",
+				"iconPath": "static/img/tabbar/order.png",
+				"selectedIconPath": "static/img/tabbar/order_s.png",
+				"text": "订单"
+			},
+			{
+				"pagePath": "pages/tabbar/tabbar-4/tabbar-4",
+				"iconPath": "static/img/tabbar/mine.png",
+				"selectedIconPath": "static/img/tabbar/mine_s.png",
+				"text": "个人中心"
+			}
+		]
+	}
+}

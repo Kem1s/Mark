@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ZIP压缩</title>
+    <script src="jszip/jszip.js"></script>
+</head>
+
+<body>
+    <!-- 选择文件:<input type="file" multiple="multiple" onchange="selectFileToArr(this,this.files)" />
+    <br /> -->
+    <textarea id="dir" wrap="off" style="width: 700px;height: 100px;"></textarea>
+    <br />
+    选择文件夹:<input type="file" name="file1" id="file1" mozdirectory="" webkitdirectory="" directory=""
+        onchange="selectFileToArr(this,this.files,1)" />
+    <br />
+    最佳速度<input type="range" id="range" min="1" max="9" value="6" />最佳压缩
+    <br />
+    <div style="height: 200px;overflow: auto;width: 100%;border: 1px solid;">
+        <table id="tab">
+            <tr>
+                <td>操作</td>
+                <td>文件</td>
+            </tr>
+        </table>
+    </div>
+    <br />
+    <input type="button" onclick="startZip()" value="开始压缩" />
+    <input type="button" onclick="FileClear()" value="清空" />
+    <br />
+    <textarea id="result" wrap="off" style="width: 700px;height: 100px;" readonly></textarea>
+    <script>
+        var AllFile = [];
+        var id = 0;
+        var result = document.querySelector("#result");
+        var seDir = document.querySelector("#dir");
+
+        function FileClear() {
+            AllFile = [];
+            id = 0;
+            document.querySelector("#tab").innerHTML = "<tr><td>操作</td><td>文件</td></tr>";
+            result.value = "";
+        }
+        function rename(id) {
+            var ArrId = AllFile.findIndex(t => t.id == id);
+            if (ArrId == -1) return;
+
+            var text = prompt("请输入新名称", AllFile[ArrId].name).trim();
+            if (text && AllFile[ArrId].name != text) {
+                while (text.indexOf("\\\\") != -1) {
+                    text = text.replace("\\\\", "\\");
+                }
+                //while ((text = text.replace("/", "_")).indexOf("/") != -1) { }
+                while ((text = text.replace(":", "_")).indexOf(":") != -1) { }
+                while ((text = text.replace("*", "_")).indexOf("*") != -1) { }
+                while ((text = text.replace("?", "_")).indexOf("?") != -1) { }
+                while ((text = text.replace("\"", "_")).indexOf("\"") != -1) { }
+                while ((text = text.replace("<", "_")).indexOf("<") != -1) { }
+                while ((text = text.replace(">", "_")).indexOf(">") != -1) { }
+                while ((text = text.replace("|", "_")).indexOf("|") != -1) { }
+
+                if (text == "") {
+                    alert("名称不允许为空");
+                    return;
+                }
+                AllFile[ArrId].name = text;
+                document.querySelector("#tr_name_" + id).innerHTML = text;
+            }
+
+        }
+
+        function del(id) {
+            var ArrId = AllFile.findIndex(t => t.id == id);
+            if (ArrId == -1) return;
+            AllFile.splice(ArrId, 1);
+            document.querySelector("#tr_" + id).remove();
+        }
+
+        function selectFileToArr(obj, files, dir) {
+
+            if (!!!seDir.value.trim()) {
+                alert("请先填写文件夹");
+                return false;
+            }
+
+            var jumpFile = [];
+            if (files.length == 0) return;
+            var zip = new JSZip();
+            var levelSelect = parseInt(document.querySelector("#range").value);
+            for (var file of files) {
+                var name = dir ? file.webkitRelativePath : file.name;
+                if (AllFile.findIndex(t => t.name == name) != -1) {
+                    jumpFile.push(name);
+                    continue;
+                }
+                var pathTemp = name.substr(name.indexOf("/") + 1);
+                var tempData = readUint8Array(file);
+                for (var itemDir of seDir.value.trim().split("\n")) {
+                    console.log(itemDir + "/" + pathTemp);
+                    AllFile.push({ id: id++, name: itemDir + "/" + pathTemp, data: tempData });
+                }
+            }
+            obj.outerHTML = obj.outerHTML;
+            if (jumpFile.length != 0) {
+                var jumpMsg = "";
+                for (var item of jumpFile) {
+                    jumpMsg += item + "\n";
+                }
+                alert("以下文件已存在任务中，已跳过!\n" + jumpMsg);
+            }
+
+            var tabHtml = "<tr><td>操作</td><td>文件</td></tr>";
+            for (var item of AllFile) {
+                var tmpHtml = "<tr id='tr_" + item.id + "'>";
+
+                tmpHtml += "<td>";
+                tmpHtml += "<input type='button' onclick='del(" + item.id + ")' value='删除' />";
+                tmpHtml += "<input type='button' onclick='rename(" + item.id + ")' value='更名' />";
+                tmpHtml += "</td>";
+                tmpHtml += "<td id='tr_name_" + item.id + "'>" + item.name + "</td>";
+                tmpHtml += "</tr>";
+                tabHtml += tmpHtml;
+            }
+            document.querySelector("#tab").innerHTML = tabHtml;
+        }
+
+        function startZip() {
+            result.value = "";
+            if (AllFile.length == 0) return;
+            var zip = new JSZip();
+            var levelSelect = parseInt(document.querySelector("#range").value);
+            for (var file of AllFile) {
+                zip.file(file.name, file.data, {
+                    compression: "DEFLATE",
+                    compressionOptions: { level: levelSelect } //speed 1-9 quality
+                });
+            }
+            createAndDownloadFile(zip, "File_" + AllFile.length);
+            //createAndDownloadFile(zip, dir ? files[0].webkitRelativePath.substr(0, files[0].webkitRelativePath.indexOf("/")) : "File_" + files.length);
+        }
+        function readUint8Array(file) {
+            return new Promise(function (resolve, reject) {
+                let reader = new FileReader();
+                reader.readAsArrayBuffer(file);
+                reader.onload = function () {
+                    resolve(new Uint8Array(this.result.slice(0, this.result.byteLength)));
+                }
+            })
+        }
+        function createAndDownloadFile(zip, fileName) {
+            zip.generateAsync({ type: "blob" }, function updateCallback(metadata) {
+                if (metadata.currentFile == null) return;
+                var proVal = metadata.percent.toFixed(2);
+                if (metadata.percent != 100) proVal = (metadata.percent < 10 ? "  " : " ") + proVal;
+                result.value = proVal + " % " + metadata.currentFile + "\n" + result.value;
+                if (result.value.length > 1000) {
+                    result.value = result.value.substr(0, 500);
+                }
+            }).then(function (blob) {
+                var aTag = document.createElement('a');
+                aTag.download = fileName + ".zip";
+                aTag.href = URL.createObjectURL(blob);
+                aTag.click();
+                URL.revokeObjectURL(blob);
+            });
+        }
+    </script>
+</body>
+
+</html>

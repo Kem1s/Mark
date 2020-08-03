@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>666</title>
+</head>
+
+<body>
+
+    <script>
+        // 函数本质上就是一个对象，它有一个属性 [[scope]]，也就是作用域，存储了执行期上下文的集合
+        // 这个集合是链式结构的，所以也称为作用域链
+
+        // 执行期上下文：当函数执行时，会创建一个执行期上下文的内部对象AO
+        //              函数每次执行，创建的AO都是独一无二的
+        //              函数执行完毕后，会立即销毁它所产生的AO
+
+        function a(){
+            function b(){
+                var bb = 1
+            }
+            var aa = 2
+        }
+        var c = 3
+        a()
+
+        // a 定义的时候：
+        //     a.[[scope]] : {
+        //         0: GO
+        //     }
+        
+        // a 执行的时候：
+        //     a.[[scope]] : {
+        //         0: AO,
+        //         1: GO
+        //     }
+
+
+
+
+
+        // 闭包：内部函数被保存到了外部，就一定会形成闭包
+        function a (){
+
+            function b(){
+                var bb = 1
+                console.log(aa)
+            }
+
+            var aa = 2
+            return b
+        }
+        var c = a()
+        c()
+
+        // a 执行的时候：
+        //     a.[[scope]] : {
+        //         0: a.AO,
+        //         1: GO
+        //     }
+
+        // a.AO = {
+        //     this: ...,
+        //     arguments: ...,
+        //     aa: 2,
+        //     b: function(){}
+        // }
+
+        // a 执行的时候，b定义：
+        //     b.[[scope]] : {
+        //         0: a.AO,
+        //         1: GO
+        //     }
+
+        // b执行的时候：
+        //     b.[[scope]] : {
+        //         0: b.AO,
+        //         1: a.AO,
+        //         2: GO
+        //     }
+
+        // b.AO = {
+        //     this: ...,
+        //     arguments: ...,
+        //     bb: 1
+        // }
+
+        
+        // 在哪个函数里面查找变量，就从哪个函数作用域链的最顶端，依次向下查找
+
+
+
+        // 闭包 第1题：
+        function a(array) {
+            var result = [];
+            for (var i = 0; i < array.length; i++) {
+                result[i] = function () {
+                    return array[i];
+                }
+            }
+            return result;
+        }
+        var b = a([10, 20, 30, 40, 50]);
+        console.log(b[0]());
+
+
+    </script>
+
+</body>
+
+</html>

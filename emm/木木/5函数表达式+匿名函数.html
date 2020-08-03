@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>666</title>
+</head>
+
+<body>
+    <script>
+        // 函数声明 和 函数表达式
+
+
+        // 1，函数表达式是忽略名字的
+        var test = function abc() { }
+        console.log(test)
+        console.log(abc)
+
+
+        // 2，匿名函数表达式
+        var test1 = function () { }
+        console.log(test1.name)
+        console.log(test1)
+
+
+        // 3，函数名不可更改
+        var test2 = function () { }
+        test2.name = '123'
+        console.log(test2.name)
+
+
+        // 4，立即执行函数：只有函数表达式才可以被执行符号执行
+        // 能被执行符号执行，就说明是立即执行函数，那么这个函数的名字就会被忽略
+        // 没有声明，执行一次过后立即释放：因为函数声明过后，除非等到javascript执行完，否则永远会被等待执行，不会被释放，占用空间，浪费效率
+        // 所以适用于做初始化工作
+
+        // function test3() { } ()
+
+        var test3 = function test4() { }()
+        console.log(test3)
+        console.log(test3.name)
+        console.log(test4)
+
+
+
+
+        //     (function () { }())
+        //     (function () { })()
+        // !function () { }()
+        //     + function () { }()
+        //     - function () { }()
+        // ~function () { }()
+        // xxx && function () { }()
+        // xxx || function () { }()
+
+
+
+
+
+
+
+        // 匿名函数 第1题：
+        var f = function g() {
+            return 23
+        }
+        f.name = 32
+        console.log(f.name)
+        typeof g()
+
+
+
+        
+
+
+        // 匿名函数 第2题：
+        var test = (function (a) {
+            this.a = a;
+            return function (b) {
+                return this.a + b;
+            }
+        }(function (a, b) {
+            return a;
+        }(3, 2)));
+        console.log(test(1));
+
+
+
+
+
+
+        var b = 10;
+        (function b() {
+            b = 20;
+            console.log(b);
+        })();
+
+
+
+
+
+
+        var x = 1
+        if (function f() { }) {
+            x += typeof f
+        }
+        console.log(x)
+
+
+
+
+
+
+
+
+
+
+
+            (
+                function (global, factory) {
+                    // 查看环境
+                    // CommonJS规范规定，每个模块内部，module变量代表当前模块。
+                    // 这个变量是一个对象，它的exports属性（即module.exports）是对外的接口。
+                    // 加载某个模块，其实是加载该模块的module.exports属性。
+                    // require方法用于加载模块
+
+                    // typeof exports === 'object' && typeof module !== 'undefined' ? module.exports = factory() :
+
+
+                    // AMD
+                    // 通过define方法，将代码定义为模块；通过require方法，实现代码的模块加载
+                    //     typeof define === 'function' && define.amd ? define(factory) :
+
+                    // window
+                    //   (global.Vue = factory());
+
+
+                    // 具体：https://www.processon.com/view/link/5c8409bbe4b02b2ce492286a#map
+
+
+                    if (typeof exports === 'object' && typeof module !== 'undefined') {
+
+                        module.exports = factory()
+
+                    } else if (typeof define === 'function' && define.amd) {
+
+                        define(factory)
+
+                    } else {
+
+                        global.Vue = factory()
+
+                    }
+
+                }(
+                    this, function () {
+
+                        function Vue() { }
+
+                        // ..........
+
+                        return Vue
+                    }
+                )
+            )
+    </script>
+
+</body>
+
+</html>

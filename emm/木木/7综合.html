@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>666</title>
+</head>
+
+<body>
+
+    <script>
+
+        // 综合1题：
+        function Foo() {
+            getName = function () {
+                console.log('1')
+            };
+            return this;
+        }
+        Foo.getName = function () {
+            console.log('2')
+        };
+        Foo.prototype.getName = function () {
+            console.log('3')
+        };
+        var getName = function () {
+            console.log('4')
+        };
+        function getName() {
+            console.log('5')
+        }
+        Foo.getName();
+        getName();
+        Foo().getName();
+        getName();
+        new Foo.getName();
+        new Foo().getName();
+        new new Foo().getName();
+
+
+
+
+
+
+
+
+
+        // 综合2题：
+        function Foo() {
+            this.getName = function () {
+                console.log('1');
+                return {
+                    getName: getName
+                }
+            }
+            getName = function () {
+                console.log('2');
+            };
+            return this
+        }
+        Foo.getName = function () {
+            console.log('3');
+        };
+        Foo.prototype.getName = function () {
+            console.log('4');
+        };
+        var getName = function () {
+            console.log('5');
+        };
+        function getName() {
+            console.log('6');
+        }
+        Foo.getName();
+        getName();
+        console.log(Foo())
+        getName()
+        Foo().getName();
+        getName();
+        new Foo.getName();
+        new Foo().getName();
+        new Foo().getName().getName();
+        new new Foo().getName();
+    </script>
+
+</body>
+
+</html>

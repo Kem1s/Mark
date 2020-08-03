@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>666</title>
+</head>
+
+<body>
+
+    <script>
+
+        // 1，同步代码 丢到1号盒子
+        
+        // 2, promise.then() 丢到2号盒子（微任务）
+            // promise.then里的回调函数会放到相应宏任务的微任务队列里，等宏任务里面的同步代码执行完再执行
+
+        // 3，setTimeout 和 setInterval 丢到3号盒子（宏任务）
+            // settimeout/setInterval 的回调函数放到宏任务队列里，等到执行栈清空以后执行
+
+        // https://github.com/Advanced-Frontend/Daily-Interview-Question/issues/7
+
+
+        
+
+
+
+        // 异步 第1题：
+        (function () {
+            console.log('1');
+            setTimeout(function () { console.log('2') }, 1000);
+            setTimeout(function () { console.log('3') }, 0);
+            console.log('4');
+        })();
+
+
+
+
+
+        // 异步 第2题：
+        setTimeout(function () {
+            console.log('1')
+        }, 0);
+        new Promise(function (resolve) {
+            console.log('2');
+            for (var i = 0; i < 10000; i++) {
+                i == 9999 && resolve();
+            }
+            console.log('3');
+        }).then(function () {
+            console.log('4');
+        });
+        console.log('5');
+
+
+
+
+
+        // 异步 第3题：***
+        async function async1() {
+            console.log('1');
+            await async2();
+            console.log('2');
+        }
+        async function async2() {
+            console.log('3');
+        }
+        console.log('4');
+        setTimeout(function () {
+            console.log('5');
+        }, 0)
+        async1();
+        new Promise(function (resolve) {
+            console.log('6');
+            resolve();
+        }).then(function () {
+            console.log('7');
+        });
+        console.log('8');
+
+
+
+
+
+
+
+        // async function f() {
+        //     await p();
+        //     console.log('ok')
+        // }
+
+        // 等同于
+
+        // async function f() {
+        //     Promise.resolve( p() )
+        //      .then(() => { console.log('ok') })
+        // }
+
+
+
+        // async函数表示函数里面可能会有异步方法，await后面跟一个表达式
+        // async方法执行时，遇到await会立即执行表达式，然后把表达式后面的代码放到微任务队列里，让出执行栈让同步代码先执行
+
+
+        
+
+        // 异步 第4题：***
+        async function async1() {
+            console.log('1');
+            await async2();
+            console.log('2');
+        }
+        async function async2() {
+            new Promise(function (resolve) {
+                console.log('3');
+                resolve();
+            }).then(function () {
+                console.log('4');
+            });
+        }
+        console.log('5');
+        setTimeout(function () {
+            console.log('6');
+        }, 0)
+        async1();
+        new Promise(function (resolve) {
+            console.log('7');
+            resolve();
+        }).then(function () {
+            console.log('8');
+        });
+        console.log('9');
+
+
+
+
+
+
+        // 异步 第5题：***
+        async function async1() {
+            console.log('1');
+            await async2();
+            setTimeout(function () {
+                console.log('2')
+            }, 0)
+        }
+        async function async2() {
+            setTimeout(function () {
+                console.log('3')
+            }, 0)
+        }
+        console.log('4');
+        setTimeout(function () {
+            console.log('5');
+        }, 0)
+        async1();
+        new Promise(function (resolve) {
+            console.log('6');
+            resolve();
+        }).then(function () {
+            console.log('7');
+        });
+        console.log('8');
+
+
+
+
+
+
+        // 异步 第6题：***
+        async function a1() {
+            console.log('1')
+            await a2()
+            console.log('2')
+        }
+        async function a2() {
+            console.log('3')
+        }
+        console.log('4')
+        setTimeout(() => {
+            console.log('5')
+        }, 0)
+        Promise.resolve().then(() => {
+            console.log('6')
+        })
+        a1()
+        let promise2 = new Promise((resolve) => {
+            resolve('7')
+            console.log('8')
+        })
+        promise2.then((res) => {
+            console.log(res)
+            Promise.resolve().then(() => {
+                console.log('9')
+            })
+        })
+        console.log('10')
+
+
+
+
+
+
+
+
+        console.log('1');
+        async function async1() {
+            console.log('2');
+            await async2();
+            console.log('3');
+        }
+        async function async2() {
+            console.log('4');
+        }
+
+        setTimeout(function () {
+            console.log('5');
+
+            new Promise(function (resolve) {
+                console.log('6');
+                resolve();
+            }).then(function () {
+                console.log('7')
+            })
+        })
+
+        async1();
+
+        new Promise(function (resolve) {
+            console.log('8');
+            resolve();
+        }).then(function () {
+            console.log('9');
+        });
+        console.log('10');
+
+
+
+    </script>
+
+</body>
+
+</html>

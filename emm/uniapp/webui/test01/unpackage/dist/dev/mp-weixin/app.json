@@ -1,0 +1,58 @@
+{
+  "pages": [
+    "pages/tabbar/tabbar-2/tabbar-2",
+    "pages/tabbar/tabbar-1/tabbar-1",
+    "pages/tabbar/tabbar-3/tabbar-3",
+    "pages/tabbar/tabbar-4/tabbar-4",
+    "pages/components/city/city",
+    "pages/components/map/map"
+  ],
+  "permission": {
+    "scope.userLocation": {
+      "desc": "您的位置信息将用于小程序收获地址"
+    }
+  },
+  "subPackages": [],
+  "window": {
+    "navigationBarTextStyle": "white",
+    "navigationBarTitleText": "爱回收",
+    "navigationBarBackgroundColor": "#17c174",
+    "backgroundColor": "#ffffff",
+    "backgroundTextStyle": "dark",
+    "enablePullDownRefresh": false
+  },
+  "tabBar": {
+    "borderStyle": "white",
+    "backgroundColor": "#FFFFFF",
+    "color": "#666",
+    "selectedColor": "#17c174",
+    "list": [
+      {
+        "pagePath": "pages/tabbar/tabbar-1/tabbar-1",
+        "iconPath": "static/img/tabbar/store.png",
+        "selectedIconPath": "static/img/tabbar/store_s.png",
+        "text": "积分商城"
+      },
+      {
+        "pagePath": "pages/tabbar/tabbar-2/tabbar-2",
+        "iconPath": "static/img/tabbar/recover.png",
+        "selectedIconPath": "static/img/tabbar/recover_s.png",
+        "text": "回收"
+      },
+      {
+        "pagePath": "pages/tabbar/tabbar-3/tabbar-3",
+        "iconPath": "static/img/tabbar/order.png",
+        "selectedIconPath": "static/img/tabbar/order_s.png",
+        "text": "订单"
+      },
+      {
+        "pagePath": "pages/tabbar/tabbar-4/tabbar-4",
+        "iconPath": "static/img/tabbar/mine.png",
+        "selectedIconPath": "static/img/tabbar/mine_s.png",
+        "text": "个人中心"
+      }
+    ]
+  },
+  "usingComponents": {},
+  "sitemapLocation": "sitemap31.json"
+}
